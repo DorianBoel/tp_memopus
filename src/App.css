@@ -1,0 +1,17 @@
+.app-logo {
+    width: 3rem;
+}
+
+.main-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%
+}
+
+.dropdown-menu {
+    right: 0rem;
+}
+
+.term-td {
+    cursor: pointer;
+}

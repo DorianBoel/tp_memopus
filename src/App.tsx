@@ -8,7 +8,7 @@ function App() {
         <div className="App">
             <MainHeader />
             <main>
-                <Container className="py-5">
+                <Container className="py-4">
                     <Outlet />
                 </Container>
             </main>

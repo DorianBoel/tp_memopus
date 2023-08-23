@@ -20,6 +20,12 @@ export default class TermService {
             .catch((err) => { throw err; });
     }
 
+    public async getById(termId: number): Promise<TermInterface> {
+        return fetch(`${TermService.URL}/${termId}`)
+            .then((res) => res.json())
+            .catch((err) => { throw err; });
+    }
+
     public async add(term: Partial<TermInterface>): Promise<TermInterface> {
         return fetch(TermService.URL, {
             headers: {

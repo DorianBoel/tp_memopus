@@ -10,8 +10,9 @@ import {
 import App from "./App";
 import TermList from "./components/TermList";
 import "./index.css";
-import { addTermAction, deleteTermAction, modifyTermAction } from "./utils/actions";
-import { termListLoader } from "./utils/loaders";
+import { addCardAction, addTermAction, deleteTermAction, modifyTermAction } from "./utils/actions";
+import { termListLoader, termViewLoader } from "./utils/loaders";
+import TermView from "./components/TermView";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -21,9 +22,13 @@ const router: Router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={ <App /> }>
             <Route path="" element={ <TermList /> } loader={ termListLoader } />
+            <Route path="term/:id" element={ <TermView /> } loader={ termViewLoader }></Route>
+
             <Route path="term/add" action={ addTermAction }></Route>
             <Route path="term/modify" action={ modifyTermAction }></Route>
             <Route path="term/delete" action={ deleteTermAction }></Route>
+
+            <Route path="card/add" action={ addCardAction }></Route>
         </Route>
     ),
 );

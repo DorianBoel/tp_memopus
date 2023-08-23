@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import { TermInterface } from "../model/Term";
-import { FetcherWithComponents, useFetcher } from "react-router-dom";
+import { type FetcherWithComponents, type NavigateFunction, useFetcher, useNavigate } from "react-router-dom";
 import ModifyTermModal from "./ModifyTermModal";
 
 const TermRow = (props: TermInterface) => {
+    const navigate: NavigateFunction = useNavigate();
+
     const [showModifyModal, setShowModifyModal] = useState(false);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -19,18 +21,18 @@ const TermRow = (props: TermInterface) => {
         } }>{ children }</span>
     ));
 
-    const nav = (term: TermInterface, evt: React.MouseEvent) => {
+    const toTermView = (term: TermInterface, evt: React.MouseEvent) => {
         if ((evt.target as Element).tagName !== "TD"){
             return;
         }
-        console.log(term.name);
+        navigate(`term/${term.id}`);
     };
 
     return (
         <>
             <tr>
-                <td className="term-td d-flex justify-content-between" onClick={ (evt) => nav(props, evt) }>
-                    <span className="text-primary">{ props.name }</span>
+                <td className="term-td d-flex justify-content-between" onClick={ (evt) => toTermView(props, evt) }>
+                    <span className="">{ props.name }</span>
                     <Dropdown drop="start">
                         <Dropdown.Toggle as={ toggleOptions } id="dropdown-basic">
                             <FontAwesomeIcon className="text-secondary mt-1" icon={ faGear } size="lg" />

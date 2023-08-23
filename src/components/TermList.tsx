@@ -20,9 +20,6 @@ const TermList = () => {
                     <Button variant="success" onClick={ () => setShowAddTermModal(true) }>
                         <FontAwesomeIcon icon={ faPlus }></FontAwesomeIcon>
                     </Button>
-                    <AddTermModal
-                        show={ showAddTermModal }
-                        handleClose={ () => setShowAddTermModal(false) } />
                 </div>
             </div>
             <Table bordered hover>
@@ -39,6 +36,9 @@ const TermList = () => {
                     ) }
                 </tbody>
             </Table>
+            <AddTermModal
+                show={ showAddTermModal }
+                handleClose={ () => setShowAddTermModal(false) } />
         </>
     );
 }

@@ -43,3 +43,27 @@ export const addCardAction = async ({ request }: ActionFunctionArgs): Promise<Ca
         tid: termId,
     });
 }
+
+export const modifyCardAction = async ({ request }: ActionFunctionArgs): Promise<CardInterface> => {
+    const formData: FormData = await request.formData();
+    let cardQuestion: string = (formData.get("modifyCardQuestion") as string).trim();
+    if (cardQuestion.at(-1) === "?")
+        cardQuestion = cardQuestion.slice(0, -1).trim();
+    const cardAnwser: string = (formData.get("modifyCardAnswer") as string);
+    const cardId: number = parseInt(formData.get("modifyCardId") as string);
+    const termId: number = parseInt(formData.get("modifyCardTerm") as string);
+    const columnId: number = parseInt(formData.get("modifyCardColumn") as string);
+    return CardService.getInstance().modify({
+        id: cardId,
+        question: cardQuestion,
+        answer: cardAnwser,
+        column: columnId,
+        tid: termId,
+    });
+}
+
+export const deleteCardAction = async ({ request }: ActionFunctionArgs): Promise<number> => {
+    const formData: FormData = await request.formData();
+    const cardId: number = parseInt(formData.get("deleteCardId") as string);
+    return CardService.getInstance().delete(cardId);
+};

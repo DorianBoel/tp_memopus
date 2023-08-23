@@ -25,7 +25,7 @@ const AddTermModal = (props: AddTermModalProps) => {
     const handleClose = () => {
         resetValidation();
         props.handleClose();
-    }
+    };
 
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>): void => {
         evt.preventDefault();

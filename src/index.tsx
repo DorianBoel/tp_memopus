@@ -10,7 +10,7 @@ import {
 import App from "./App";
 import TermList from "./components/TermList";
 import "./index.css";
-import { addCardAction, addTermAction, deleteTermAction, modifyTermAction } from "./utils/actions";
+import { addCardAction, addTermAction, deleteCardAction, deleteTermAction, modifyCardAction, modifyTermAction } from "./utils/actions";
 import { termListLoader, termViewLoader } from "./utils/loaders";
 import TermView from "./components/TermView";
 
@@ -29,6 +29,8 @@ const router: Router = createBrowserRouter(
             <Route path="term/delete" action={ deleteTermAction }></Route>
 
             <Route path="card/add" action={ addCardAction }></Route>
+            <Route path="card/modify" action={ modifyCardAction }></Route>
+            <Route path="card/delete" action={ deleteCardAction }></Route>
         </Route>
     ),
 );

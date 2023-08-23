@@ -15,8 +15,8 @@ const TermList = () => {
     return (
         <>
             <div className="row mb-1">
-                <p className="h3 col-11 mb-0">Liste des thématiques</p>
-                <div className="col d-flex justify-content-end">
+                <p className="h3 col mb-0">Liste des thématiques</p>
+                <div className="col-1 d-flex justify-content-end">
                     <Button variant="success" onClick={ () => setShowAddTermModal(true) }>
                         <FontAwesomeIcon icon={ faPlus }></FontAwesomeIcon>
                     </Button>
@@ -41,6 +41,6 @@ const TermList = () => {
                 handleClose={ () => setShowAddTermModal(false) } />
         </>
     );
-}
+};
 
 export default TermList;

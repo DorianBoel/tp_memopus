@@ -25,17 +25,36 @@ export default class CardService {
         });
     }
 
-    public async add(term: Partial<CardInterface>): Promise<CardInterface> {
+    public async add(card: Partial<CardInterface>): Promise<CardInterface> {
         return fetch(CardService.URL, {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
             method: "POST",
-            body: JSON.stringify(term),
+            body: JSON.stringify(card),
         })
         .then((res) => res.json())
         .catch((err) => { throw err; });
+    }
+
+    public async modify(card: CardInterface): Promise<CardInterface> {
+        return fetch(`${CardService.URL}/${card.id}`, {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify(card),
+        })
+        .then((res) => res.json())
+        .catch((err) => { throw err; });
+    }
+
+    public async delete(cardId: number): Promise<number> {
+        return fetch(`${CardService.URL}/${cardId}`, { method: "DELETE" })
+            .then(() => cardId)
+            .catch((err) => { throw err; });
     }
 
 }

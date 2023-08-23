@@ -8,8 +8,20 @@
     width: 100%
 }
 
+.dropdown span {
+    cursor: pointer;
+}
+
+.dropdown span:hover svg {
+    color: #565e64 !important;
+}
+
 .dropdown-menu {
     right: 0rem;
+}
+
+.card .dropdown-menu {
+    top: 2rem;
 }
 
 .term-td {

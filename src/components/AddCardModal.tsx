@@ -28,7 +28,7 @@ const AddCardModal = (props: AddCardModalProps) => {
     const handleClose = () => {
         resetValidation();
         props.handleClose();
-    }
+    };
 
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>): void => {
         evt.preventDefault();
@@ -77,8 +77,7 @@ const AddCardModal = (props: AddCardModalProps) => {
                         <Form.Control
                             type="text"
                             name="addCardAnswer"
-                            placeholder="Ex: Cascading Style Sheets"
-                            onInput={ () => setAddCardQuestionInvalid(false) } />
+                            placeholder="Ex: Cascading Style Sheets"/>
                     </Form.Group>
                     <Form.Control type="hidden" name="addCardTerm" value={ props.termId } />
                     <Form.Control type="hidden" name="addCardColumn" value={ props.column?.id } />

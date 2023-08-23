@@ -15,6 +15,6 @@ const MainHeader = () => {
             </Container>
         </Navbar>
     );
-}
+};
 
 export default MainHeader;

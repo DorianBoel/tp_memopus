@@ -19,12 +19,12 @@ const TermView = () => {
         return cards.filter((card) =>
             card.column === columnId
         );
-    }
+    };
 
     const openAddCardModal = (column: ColumnInterface) => {
         setShowAddCardModal(true);
         setCurrentColumn(column);
-    }
+    };
 
     return (
         <>
@@ -61,6 +61,6 @@ const TermView = () => {
                 column={ currentColumn } />
         </>
     );
-}
+};
 
 export default TermView;

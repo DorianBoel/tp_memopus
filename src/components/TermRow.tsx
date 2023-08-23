@@ -9,11 +9,12 @@ import ModifyTermModal from "./ModifyTermModal";
 const TermRow = (props: TermInterface) => {
     const navigate: NavigateFunction = useNavigate();
 
+    const fetcher: FetcherWithComponents<number> = useFetcher();
+
     const [showModifyModal, setShowModifyModal] = useState(false);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    const fetcher: FetcherWithComponents<number> = useFetcher();
 
     const toggleOptions = forwardRef(({ children, onClick }: any, ref) => (
         <span onClick={ (e) => {
@@ -33,8 +34,8 @@ const TermRow = (props: TermInterface) => {
             <tr>
                 <td className="term-td d-flex justify-content-between" onClick={ (evt) => toTermView(props, evt) }>
                     <span className="">{ props.name }</span>
-                    <Dropdown drop="start">
-                        <Dropdown.Toggle as={ toggleOptions } id="dropdown-basic">
+                    <Dropdown>
+                        <Dropdown.Toggle as={ toggleOptions }>
                             <FontAwesomeIcon className="text-secondary mt-1" icon={ faGear } size="lg" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
@@ -59,7 +60,7 @@ const TermRow = (props: TermInterface) => {
                 </Modal.Header>
                 <fetcher.Form action="/term/delete" method="DELETE">
                     <Modal.Body>
-                        <Form.Control type="hidden" name="deleteTermId" value={ props.id } autoFocus />
+                        <Form.Control type="hidden" name="deleteTermId" value={ props.id } />
                         <p>Voulez-vous vraiment supprimer la thématique '{ props.name }' ?</p>
                     </Modal.Body>
                     <Modal.Footer>
@@ -74,6 +75,6 @@ const TermRow = (props: TermInterface) => {
             </Modal>
         </>
     );
-}
+};
 
 export default TermRow;

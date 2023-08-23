@@ -27,7 +27,7 @@ const ModifyTermModal = (props: TermInterface & ModifyTermModalProps) => {
     const handleClose = () => {
         resetValidation();
         props.handleClose();
-    }
+    };
 
     const handleSubmit = (evt: React.FormEvent<HTMLFormElement>): void => {
         evt.preventDefault();
@@ -73,7 +73,7 @@ const ModifyTermModal = (props: TermInterface & ModifyTermModalProps) => {
                             ref={ modifyTermNameRef } />
                         <Form.Control.Feedback type="invalid" ref={ modifyTermNameFeedbackRef } />
                     </Form.Group>
-                    <Form.Control type="hidden" name="modifyTermId" value={ props.id } autoFocus />
+                    <Form.Control type="hidden" name="modifyTermId" value={ props.id } />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" type="submit">
@@ -83,6 +83,6 @@ const ModifyTermModal = (props: TermInterface & ModifyTermModalProps) => {
             </fetcher.Form>
         </Modal>
     );
-}
+};
 
 export default ModifyTermModal;

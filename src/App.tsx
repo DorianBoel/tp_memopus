@@ -1,8 +1,7 @@
+import { Container } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/MainHeader";
-import { Container } from "react-bootstrap";
-import MainFooter from "./components/MainFooter";
 
 function App() {
     return (
@@ -13,7 +12,7 @@ function App() {
                     <Outlet />
                 </Container>
             </main>
-            <MainFooter></MainFooter>
+            {/* <MainFooter></MainFooter> */}
         </div>
     );
 }

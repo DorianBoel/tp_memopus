@@ -10,6 +10,7 @@ import {
 import App from "./App";
 import TermList from "./components/TermList";
 import "./index.css";
+import { addTermAction, deleteTermAction, modifyTermAction } from "./utils/actions";
 import { termListLoader } from "./utils/loaders";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
@@ -20,6 +21,9 @@ const router: Router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={ <App /> }>
             <Route path="" element={ <TermList /> } loader={ termListLoader } />
+            <Route path="term/add" action={ addTermAction }></Route>
+            <Route path="term/modify" action={ modifyTermAction }></Route>
+            <Route path="term/delete" action={ deleteTermAction }></Route>
         </Route>
     ),
 );

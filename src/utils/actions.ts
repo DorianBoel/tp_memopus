@@ -4,10 +4,13 @@ import { TermInterface } from "../model/Term";
 import { CardInterface } from "../model/Card";
 import CardService from "../services/CardService";
 
+const termService: TermService = TermService.getInstance();
+const cardService: CardService = CardService.getInstance();
+
 export const addTermAction = async ({ request }: ActionFunctionArgs): Promise<TermInterface> => {
     const formData: FormData = await request.formData();
     const termName: string = (formData.get("addTermName") as string).trim();
-    return TermService.getInstance().add({
+    return termService.add({
         name: termName,
     });
 };
@@ -16,16 +19,20 @@ export const modifyTermAction = async ({ request }: ActionFunctionArgs): Promise
     const formData: FormData = await request.formData();
     const termName: string = (formData.get("modifyTermName") as string).trim();
     const termId: number = parseInt(formData.get("modifyTermId") as string);
-    return TermService.getInstance().modify({
+    return termService.modify({
         id: termId,
         name: termName,
     });
-}
+};
 
 export const deleteTermAction = async ({ request }: ActionFunctionArgs): Promise<number> => {
     const formData: FormData = await request.formData();
     const termId: number = parseInt(formData.get("deleteTermId") as string);
-    return TermService.getInstance().delete(termId);
+    const cards = await cardService.getByTerm(termId);
+    for (const card of cards) {
+        await cardService.delete(card.id);
+    }
+    return termService.delete(termId);
 };
 
 export const addCardAction = async ({ request }: ActionFunctionArgs): Promise<CardInterface> => {
@@ -36,13 +43,13 @@ export const addCardAction = async ({ request }: ActionFunctionArgs): Promise<Ca
     const cardAnwser: string = (formData.get("addCardAnswer") as string);
     const termId: number = parseInt(formData.get("addCardTerm") as string);
     const columnId: number = parseInt(formData.get("addCardColumn") as string);
-    return CardService.getInstance().add({
+    return cardService.add({
         question: cardQuestion,
         answer: cardAnwser,
         column: columnId,
         tid: termId,
     });
-}
+};
 
 export const modifyCardAction = async ({ request }: ActionFunctionArgs): Promise<CardInterface> => {
     const formData: FormData = await request.formData();
@@ -53,17 +60,28 @@ export const modifyCardAction = async ({ request }: ActionFunctionArgs): Promise
     const cardId: number = parseInt(formData.get("modifyCardId") as string);
     const termId: number = parseInt(formData.get("modifyCardTerm") as string);
     const columnId: number = parseInt(formData.get("modifyCardColumn") as string);
-    return CardService.getInstance().modify({
+    return cardService.modify({
         id: cardId,
         question: cardQuestion,
         answer: cardAnwser,
         column: columnId,
         tid: termId,
     });
-}
+};
+
+export const moveCardAction = async ({ request }: ActionFunctionArgs): Promise<CardInterface> => {
+    const formData: FormData = await request.formData();
+    const cardId: number = parseInt(formData.get("cardId") as string);
+    const columnId: number = parseInt(formData.get("columnId") as string);
+    const card: CardInterface = await cardService.getById(cardId);
+    return cardService.modify({
+        ...card,
+        column: columnId,
+    });
+};
 
 export const deleteCardAction = async ({ request }: ActionFunctionArgs): Promise<number> => {
     const formData: FormData = await request.formData();
     const cardId: number = parseInt(formData.get("deleteCardId") as string);
-    return CardService.getInstance().delete(cardId);
+    return cardService.delete(cardId);
 };

@@ -24,6 +24,40 @@
     top: 2rem;
 }
 
+.draggable {
+    cursor: grab;
+}
+
+.dragging {
+    opacity: 0.4;
+}
+
+.dragging .draggable {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+}
+
+@keyframes bu {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+.card.drop-zone {
+    border-style: dashed;
+    transition: .01s;
+    animation: .1s alternate both ease-out bu;
+}
+
+.drop-zone.hovering {
+    border-color: #212529;
+    transform: scale(1.05);
+}
+
 .term-td {
     cursor: pointer;
 }

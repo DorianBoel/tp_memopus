@@ -1,13 +1,35 @@
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useState } from "react";
 import { Button, Card, Dropdown, Form, Modal } from "react-bootstrap";
 import { useFetcher, type FetcherWithComponents } from "react-router-dom";
 import { CardInterface } from "../model/Card";
 import ModifyCardModal from "./ModifyCardModal";
+import { useDrag } from "react-dnd";
+import CardService from "../services/CardService";
+import { ColumnInterface } from "../model/Column";
 
 const MemoCard = (props: CardInterface) => {
-    const fetcher: FetcherWithComponents<number> = useFetcher();
+    const fetcherMove: FetcherWithComponents<CardInterface> = useFetcher();
+
+    const fetcherDelete: FetcherWithComponents<number> = useFetcher();
+
+    const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
+            type: "card",
+            item: { id: props.id, column: props.column },
+            end: (item, monitor) => {
+                const dropResult = monitor.getDropResult<Partial<ColumnInterface>>();
+                if (item && dropResult) {
+                    if (typeof dropResult.id === "number" && item.column !== dropResult.id) {
+                        moveCard(props, dropResult.id);
+                    }
+                }
+            },
+            collect: (monitor) => ({
+                isDragging: monitor.isDragging(),
+            }),
+        })
+    );
 
     const [showAnswer, setShowAnswer] = useState(false);
 
@@ -21,9 +43,25 @@ const MemoCard = (props: CardInterface) => {
         } }>{ children }</span>
     ));
 
+    const moveCard = async (card: CardInterface, columnId: number) => {
+        let formData = new FormData();
+        formData.append("cardId", card.id.toString());
+        formData.append("columnId", columnId.toString());
+        fetcherMove.submit(formData, {
+            method: "POST",
+            action: "/card/move"
+        });
+        await CardService.getInstance().modify({ ...card, column: columnId });
+    }
+
     return (
         <>
-            <Card className="px-0">
+            <Card className={ `px-0 ${isDragging ? "dragging" : ""}` } ref={ dragPreview }>
+                <Card.Header className="d-flex justify-content-end">
+                    <span className="draggable" ref={ drag }>
+                        <FontAwesomeIcon className="text-secondary" size="lg" icon={ faGripVertical } />
+                    </span>
+                </Card.Header>
                 <Card.Body>
                     <div className="row">
                         <Card.Title className="h6 col">
@@ -31,7 +69,7 @@ const MemoCard = (props: CardInterface) => {
                         </Card.Title>
                         <Dropdown className="d-flex justify-content-end col-1">
                             <Dropdown.Toggle as={ toggleOptions }>
-                                <FontAwesomeIcon className="text-secondary mt-1" icon={ faGear } size="lg" />
+                                <FontAwesomeIcon className="text-secondary" size="lg" icon={ faGear } />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={ () => setShowModifyModal(true) }>
@@ -44,12 +82,16 @@ const MemoCard = (props: CardInterface) => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <Button variant="secondary" size="sm" onClick={ () => setShowAnswer((val) => !val) }>
-                        { showAnswer ? "Masquer" : "Afficher"} la réponse
-                    </Button>
-                    <Card.Text>
-                        { showAnswer && props.answer }
-                    </Card.Text>
+                    <div className="d-flex">
+                        <Button className="m-auto" variant="secondary" size="sm" onClick={ () => setShowAnswer((val) => !val) }>
+                            { showAnswer ? "Masquer" : "Afficher"} la réponse
+                        </Button>
+                    </div>
+                    { showAnswer &&
+                        <Card.Text className="pt-2">
+                            { props.answer }
+                        </Card.Text>
+                    }
                 </Card.Body>
             </Card>
             <ModifyCardModal { ...props } show={ showModifyModal } handleClose={ () => setShowModifyModal(false) } />
@@ -57,7 +99,7 @@ const MemoCard = (props: CardInterface) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Suppression d'une fiche mémo</Modal.Title>
                 </Modal.Header>
-                <fetcher.Form action="/card/delete" method="DELETE">
+                <fetcherDelete.Form action="/card/delete" method="DELETE">
                     <Modal.Body>
                         <Form.Control type="hidden" name="deleteCardId" value={ props.id } />
                         <p>Voulez-vous vraiment supprimer cette fiche ?</p>
@@ -70,7 +112,7 @@ const MemoCard = (props: CardInterface) => {
                             Supprimer
                         </Button>
                     </Modal.Footer>
-                </fetcher.Form>
+                </fetcherDelete.Form>
             </Modal>
         </>
     );

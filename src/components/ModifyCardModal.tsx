@@ -61,7 +61,7 @@ const ModifyCardModal = (props: CardInterface & ModifyCardModalProps) => {
             </Modal.Header>
             <fetcher.Form action="/card/modify" method="PUT" onSubmit={ (evt) => handleSubmit(evt) }>
                 <Modal.Body>
-                    <Form.Group controlId="modifyCardQuestion">
+                    <Form.Group className="mb-2" controlId="modifyCardQuestion">
                         <Form.Label>Nom</Form.Label>
                         <Form.Control
                             type="text"

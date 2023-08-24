@@ -18,6 +18,12 @@ export default class CardService {
             .catch((err) => { throw err; });
     }
 
+    public async getById(cardId: number): Promise<CardInterface> {
+        return fetch(`${CardService.URL}/${cardId}`)
+            .then((res) => res.json())
+            .catch((err) => { throw err; });
+    }
+
     public async getByTerm(termId: number): Promise<CardInterface[]> {
         const cards = await this.getAll();
         return cards.filter((card) => {

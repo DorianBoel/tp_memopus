@@ -1,26 +1,44 @@
 import { LoaderFunctionArgs } from "react-router-dom";
 import { type TermInterface } from "../model/Term";
 import TermService from "../services/TermService";
-import { ColumnInterface } from "../model/Column";
+import { type ColumnInterface } from "../model/Column";
 import ColumnService from "../services/ColumnService";
-import { CardInterface } from "../model/Card";
+import { type CardInterface } from "../model/Card";
 import CardService from "../services/CardService";
 
-export const termListLoader = async (): Promise<TermInterface[]> => {
-    return TermService.getInstance().getAll();
+
+const termService: TermService = TermService.getInstance();
+const cardService: CardService = CardService.getInstance();
+const columnService: ColumnService = ColumnService.getInstance();
+
+type BaseLoaderData = [
+    CardInterface[],
+    ColumnInterface[],
+]
+
+export type TermListLoaderData = [
+    TermInterface[],
+    ...BaseLoaderData,
+]
+
+export const termListLoader = async (): Promise<TermListLoaderData> => {
+    return Promise.all([
+        termService.getAll(),
+        cardService.getAll(),
+        columnService.getAll(),
+    ]);
 };
 
 export type TermViewLoaderData = [
     TermInterface,
-    CardInterface[],
-    ColumnInterface[],
+    ...BaseLoaderData,
 ]
 
 export const termViewLoader = async ({ params }: LoaderFunctionArgs): Promise<TermViewLoaderData> => {
     const termId: number = parseInt(params.id!);
     return Promise.all([
-        TermService.getInstance().getById(termId),
-        CardService.getInstance().getByTerm(termId),
-        ColumnService.getInstance().getAll(),
+        termService.getById(termId),
+        cardService.getByTerm(termId),
+        columnService.getAll(),
     ]);
 }

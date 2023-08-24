@@ -5,16 +5,24 @@ import { Button, Dropdown, Form, Modal } from "react-bootstrap";
 import { TermInterface } from "../model/Term";
 import { type FetcherWithComponents, type NavigateFunction, useFetcher, useNavigate } from "react-router-dom";
 import ModifyTermModal from "./ModifyTermModal";
+import { ColumnInterface } from "../model/Column";
+import { CardInterface } from "../model/Card";
 
-const TermRow = (props: TermInterface) => {
+interface TermRowProps {
+    cards: CardInterface[];
+    columns: ColumnInterface[];
+}
+
+const TermRow = (props: TermInterface & TermRowProps) => {
     const navigate: NavigateFunction = useNavigate();
 
     const fetcher: FetcherWithComponents<number> = useFetcher();
 
+    const [showInfoModal, setShowInfoModal] = useState(false);
+
     const [showModifyModal, setShowModifyModal] = useState(false);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-
 
     const toggleOptions = forwardRef(({ children, onClick }: any, ref) => (
         <span onClick={ (e) => {
@@ -29,6 +37,12 @@ const TermRow = (props: TermInterface) => {
         navigate(`term/${term.id}`);
     };
 
+    const cardsByColumn = (column: ColumnInterface): CardInterface[] => {
+        return props.cards.filter((card) =>
+            card.column === column.id
+        );
+    }
+
     return (
         <>
             <tr>
@@ -39,6 +53,9 @@ const TermRow = (props: TermInterface) => {
                             <FontAwesomeIcon className="text-secondary mt-1" icon={ faGear } size="lg" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
+                            <Dropdown.Item onClick={ () => setShowInfoModal(true) }>
+                                Infos
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={ () => setShowModifyModal(true) }>
                                 Modifier
                             </Dropdown.Item>
@@ -50,6 +67,31 @@ const TermRow = (props: TermInterface) => {
                     </Dropdown>
                 </td>
             </tr>
+            <Modal size="sm" show={ showInfoModal } onHide={ () => setShowInfoModal(false) }>
+                <Modal.Header closeButton>
+                    <Modal.Title>Thématique { props.name }</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <ul className="list-unstyled ps-4">
+                        <li>
+                            Niveaux d'apprentissage
+                            <ul>
+                                { props.columns.map((column) =>
+                                    <li key={ column.id } >
+                                        { column.label } : { cardsByColumn(column).length }
+                                    </li>
+                                ) }
+                            </ul>
+                        </li>
+                        <li>Nb de fiches total : { props.cards.length }</li>
+                    </ul>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={ () => setShowInfoModal(false) }>
+                            Fermer
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <ModifyTermModal
                 { ...props }
                 show={ showModifyModal }
@@ -61,7 +103,8 @@ const TermRow = (props: TermInterface) => {
                 <fetcher.Form action="/term/delete" method="DELETE">
                     <Modal.Body>
                         <Form.Control type="hidden" name="deleteTermId" value={ props.id } />
-                        <p>Voulez-vous vraiment supprimer la thématique '{ props.name }' ?</p>
+                        <p>Voulez-vous vraiment supprimer la thématique '{ props.name }' ?<br />
+                        Cela supprimera aussi toutes les fiches associées.</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={ () => setShowDeleteModal(false) }>

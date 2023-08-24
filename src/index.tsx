@@ -9,10 +9,10 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import TermList from "./components/TermList";
-import "./index.css";
-import { addCardAction, addTermAction, deleteCardAction, deleteTermAction, modifyCardAction, modifyTermAction } from "./utils/actions";
-import { termListLoader, termViewLoader } from "./utils/loaders";
 import TermView from "./components/TermView";
+import "./index.css";
+import { addCardAction, addTermAction, deleteCardAction, deleteTermAction, modifyCardAction, modifyTermAction, moveCardAction } from "./utils/actions";
+import { termListLoader, termViewLoader } from "./utils/loaders";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -30,13 +30,12 @@ const router: Router = createBrowserRouter(
 
             <Route path="card/add" action={ addCardAction }></Route>
             <Route path="card/modify" action={ modifyCardAction }></Route>
+            <Route path="card/move" action={ moveCardAction }></Route>
             <Route path="card/delete" action={ deleteCardAction }></Route>
         </Route>
     ),
 );
 
 root.render(
-    <React.StrictMode>
-        <RouterProvider router={ router } />
-    </React.StrictMode>
+    <RouterProvider router={ router } />
 );

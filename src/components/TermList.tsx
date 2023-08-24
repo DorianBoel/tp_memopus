@@ -3,14 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useLoaderData } from "react-router-dom";
-import { TermInterface } from "../model/Term";
+import { type CardInterface } from "../model/Card";
+import { type TermInterface } from "../model/Term";
+import { type TermListLoaderData } from "../utils/loaders";
 import AddTermModal from "./AddTermModal";
 import TermRow from "./TermRow";
 
 const TermList = () => {
     const [showAddTermModal, setShowAddTermModal] = useState(false);
 
-    const terms: TermInterface[] = useLoaderData() as TermInterface[];
+    const [terms, cards, columns]: TermListLoaderData = useLoaderData() as TermListLoaderData;
+
+    const cardsOfTerm = (term: TermInterface): CardInterface[] => {
+        return cards.filter((card) => {
+            return card.tid === term.id;
+        });
+    }
 
     return (
         <>
@@ -32,7 +40,11 @@ const TermList = () => {
                 </thead>
                 <tbody>
                     { terms.map((term) =>
-                        <TermRow key={ term.id } { ...term } />
+                        <TermRow
+                            key={ term.id }
+                            { ...term }
+                            cards={ cardsOfTerm(term) }
+                            columns={ columns } />
                     ) }
                 </tbody>
             </Table>

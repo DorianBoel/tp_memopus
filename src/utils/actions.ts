@@ -1,8 +1,8 @@
 import { type ActionFunctionArgs } from "react-router-dom";
-import TermService from "../services/TermService";
-import { TermInterface } from "../model/Term";
-import { CardInterface } from "../model/Card";
+import { type CardInterface } from "../model/Card";
+import { type TermInterface } from "../model/Term";
 import CardService from "../services/CardService";
+import TermService from "../services/TermService";
 
 const termService: TermService = TermService.getInstance();
 const cardService: CardService = CardService.getInstance();

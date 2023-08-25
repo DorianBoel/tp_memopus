@@ -1,8 +1,8 @@
-import { FetcherWithComponents, useFetcher } from "react-router-dom";
-import { CardInterface } from "../model/Card";
 import { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { ColumnInterface } from "../model/Column";
+import { useFetcher, type FetcherWithComponents } from "react-router-dom";
+import { type CardInterface } from "../model/Card";
+import { type ColumnInterface } from "../model/Column";
 
 interface AddCardModalProps {
     show: boolean;

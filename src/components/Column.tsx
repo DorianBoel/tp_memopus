@@ -2,8 +2,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Col } from "react-bootstrap";
 import { useDrop } from "react-dnd";
-import { CardInterface } from "../model/Card";
-import { ColumnInterface } from "../model/Column";
+import { type CardInterface } from "../model/Card";
+import { type ColumnInterface } from "../model/Column";
 import MemoCard from "./MemoCard";
 
 interface ColumnProps {
@@ -38,11 +38,10 @@ const Column = (props: ColumnInterface & ColumnProps) => {
                     <p className="col h5">{ props.label }</p>
                 </div>
                 <div className="row flex-column g-2">
-                    {
-                        canDrop &&
-                            <Card body
-                                className={ `drop-zone bg-warning-subtle border-3 ${hovering ? "hovering" : ""}` }
-                                ref={drop}>Déplacer ici.</Card>
+                    { canDrop &&
+                        <Card body
+                            className={ `drop-zone bg-warning-subtle py-2 border-3 ${hovering ? "hovering" : ""}` }
+                            ref={drop}>Déplacer ici.</Card>
                     }
                     { props.cards.map((card) =>
                         <MemoCard key={ card.id } { ...card } />

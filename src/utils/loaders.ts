@@ -1,10 +1,10 @@
-import { LoaderFunctionArgs } from "react-router-dom";
-import { type TermInterface } from "../model/Term";
-import TermService from "../services/TermService";
-import { type ColumnInterface } from "../model/Column";
-import ColumnService from "../services/ColumnService";
+import { type LoaderFunctionArgs } from "react-router-dom";
 import { type CardInterface } from "../model/Card";
+import { type ColumnInterface } from "../model/Column";
+import { type TermInterface } from "../model/Term";
 import CardService from "../services/CardService";
+import ColumnService from "../services/ColumnService";
+import TermService from "../services/TermService";
 
 
 const termService: TermService = TermService.getInstance();

@@ -2,11 +2,11 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useState } from "react";
 import { Button, Dropdown, Form, Modal } from "react-bootstrap";
-import { TermInterface } from "../model/Term";
-import { type FetcherWithComponents, type NavigateFunction, useFetcher, useNavigate } from "react-router-dom";
-import ModifyTermModal from "./ModifyTermModal";
-import { ColumnInterface } from "../model/Column";
+import { useFetcher, useNavigate, type FetcherWithComponents, type NavigateFunction } from "react-router-dom";
 import { CardInterface } from "../model/Card";
+import { ColumnInterface } from "../model/Column";
+import { TermInterface } from "../model/Term";
+import ModifyTermModal from "./ModifyTermModal";
 
 interface TermRowProps {
     cards: CardInterface[];
@@ -74,16 +74,19 @@ const TermRow = (props: TermInterface & TermRowProps) => {
                 <Modal.Body>
                     <ul className="list-unstyled ps-4">
                         <li>
-                            Niveaux d'apprentissage
+                            <span className="fw-bold">Niveaux d'apprentissage</span>
                             <ul>
                                 { props.columns.map((column) =>
-                                    <li key={ column.id } >
-                                        { column.label } : { cardsByColumn(column).length }
+                                    <li key={ column.id }>
+                                        <span className="fw-medium">{ column.label } : </span>
+                                        { cardsByColumn(column).length }
                                     </li>
                                 ) }
                             </ul>
                         </li>
-                        <li>Nb de fiches total : { props.cards.length }</li>
+                        <li className="fw-bold">
+                            Nb de fiches total : { props.cards.length }
+                        </li>
                     </ul>
                 </Modal.Body>
                 <Modal.Footer>

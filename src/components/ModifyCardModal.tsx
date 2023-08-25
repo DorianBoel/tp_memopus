@@ -1,7 +1,7 @@
-import { FetcherWithComponents, useFetcher } from "react-router-dom";
-import { CardInterface } from "../model/Card";
 import { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useFetcher, type FetcherWithComponents } from "react-router-dom";
+import { type CardInterface } from "../model/Card";
 
 interface ModifyCardModalProps {
     show: boolean;

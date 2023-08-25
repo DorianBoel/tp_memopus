@@ -8,6 +8,10 @@
     width: 100%
 }
 
+.term-td {
+    cursor: pointer;
+}
+
 .dropdown span {
     cursor: pointer;
 }
@@ -37,7 +41,20 @@
     cursor: -moz-grabbing;
 }
 
-@keyframes bu {
+.card.drop-zone {
+    color: #6c757d;
+    border-style: dashed;
+    transition: .01s;
+    animation: .1s alternate both ease-out deploy;
+}
+
+.drop-zone.hovering {
+    color: #212529;
+    border-color: #212529;
+    transform: scale(1.05);
+}
+
+@keyframes deploy {
     from {
         transform: scaleY(0);
     }
@@ -45,19 +62,4 @@
     to {
         transform: scaleY(1);
     }
-}
-
-.card.drop-zone {
-    border-style: dashed;
-    transition: .01s;
-    animation: .1s alternate both ease-out bu;
-}
-
-.drop-zone.hovering {
-    border-color: #212529;
-    transform: scale(1.05);
-}
-
-.term-td {
-    cursor: pointer;
 }

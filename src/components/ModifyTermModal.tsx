@@ -1,7 +1,7 @@
-import { FetcherWithComponents, useFetcher } from "react-router-dom";
-import { TermInterface } from "../model/Term";
 import { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { useFetcher, type FetcherWithComponents } from "react-router-dom";
+import { type TermInterface } from "../model/Term";
 
 interface ModifyTermModalProps {
     show: boolean;

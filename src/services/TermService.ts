@@ -2,7 +2,7 @@ import { type TermInterface } from "../model/Term";
 
 export default class TermService {
 
-    private static URL = "http://localhost:3001/terms";
+    private static URL = `${process.env.REACT_APP_SERVER_URL}/terms`;
 
     private static instance: TermService;
 

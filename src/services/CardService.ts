@@ -1,8 +1,8 @@
-import { CardInterface } from "../model/Card";
+import { type CardInterface } from "../model/Card";
 
 export default class CardService {
 
-    private static URL = "http://localhost:3001/cards";
+    private static URL = `${process.env.REACT_APP_SERVER_URL}/cards`;
 
     private static instance: CardService;
 

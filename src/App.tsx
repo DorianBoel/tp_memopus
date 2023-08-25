@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/MainHeader";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
     return (

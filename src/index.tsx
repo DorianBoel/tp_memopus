@@ -1,5 +1,4 @@
 import { type Router } from "@remix-run/router";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import {
     Route,
@@ -11,7 +10,15 @@ import App from "./App";
 import TermList from "./components/TermList";
 import TermView from "./components/TermView";
 import "./index.css";
-import { addCardAction, addTermAction, deleteCardAction, deleteTermAction, modifyCardAction, modifyTermAction, moveCardAction } from "./utils/actions";
+import {
+    addCardAction,
+    addTermAction,
+    deleteCardAction,
+    deleteTermAction,
+    modifyCardAction,
+    modifyTermAction,
+    moveCardAction,
+} from "./utils/actions";
 import { termListLoader, termViewLoader } from "./utils/loaders";
 
 const root: ReactDOM.Root = ReactDOM.createRoot(

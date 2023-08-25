@@ -2,7 +2,7 @@ import { type ColumnInterface } from "../model/Column";
 
 export default class ColumnService {
 
-    private static URL = "http://localhost:3001/columns";
+    private static URL = `${process.env.REACT_APP_SERVER_URL}/columns`;
 
     private static instance: ColumnService;
 

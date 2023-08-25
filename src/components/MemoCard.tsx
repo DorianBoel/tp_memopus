@@ -2,12 +2,12 @@ import { faGear, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useState } from "react";
 import { Button, Card, Dropdown, Form, Modal } from "react-bootstrap";
-import { useFetcher, type FetcherWithComponents } from "react-router-dom";
-import { CardInterface } from "../model/Card";
-import ModifyCardModal from "./ModifyCardModal";
 import { useDrag } from "react-dnd";
+import { useFetcher, type FetcherWithComponents } from "react-router-dom";
+import { type CardInterface } from "../model/Card";
+import { type ColumnInterface } from "../model/Column";
 import CardService from "../services/CardService";
-import { ColumnInterface } from "../model/Column";
+import ModifyCardModal from "./ModifyCardModal";
 
 const MemoCard = (props: CardInterface) => {
     const fetcherMove: FetcherWithComponents<CardInterface> = useFetcher();
@@ -57,30 +57,30 @@ const MemoCard = (props: CardInterface) => {
     return (
         <>
             <Card className={ `px-0 ${isDragging ? "dragging" : ""}` } ref={ dragPreview }>
-                <Card.Header className="d-flex justify-content-end">
+                <Card.Header className="d-flex justify-content-end gap-2">
+                    <Dropdown className="">
+                        <Dropdown.Toggle as={ toggleOptions }>
+                            <FontAwesomeIcon className="text-secondary" size="lg" icon={ faGear } />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={ () => setShowModifyModal(true) }>
+                                Modifier
+                            </Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={ () => setShowDeleteModal(true) }>
+                                Supprimer
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                     <span className="draggable" ref={ drag }>
                         <FontAwesomeIcon className="text-secondary" size="lg" icon={ faGripVertical } />
                     </span>
                 </Card.Header>
                 <Card.Body>
-                    <div className="row">
-                        <Card.Title className="h6 col">
+                    <div>
+                        <Card.Title className="h6">
                             { props.question } ?
                         </Card.Title>
-                        <Dropdown className="d-flex justify-content-end col-1">
-                            <Dropdown.Toggle as={ toggleOptions }>
-                                <FontAwesomeIcon className="text-secondary" size="lg" icon={ faGear } />
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={ () => setShowModifyModal(true) }>
-                                    Modifier
-                                </Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item onClick={ () => setShowDeleteModal(true) }>
-                                    Supprimer
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
                     </div>
                     <div className="d-flex">
                         <Button className="m-auto" variant="secondary" size="sm" onClick={ () => setShowAnswer((val) => !val) }>

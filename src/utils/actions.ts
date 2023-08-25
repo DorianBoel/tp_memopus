@@ -3,9 +3,11 @@ import { type CardInterface } from "../model/Card";
 import { type TermInterface } from "../model/Term";
 import CardService from "../services/CardService";
 import TermService from "../services/TermService";
+import AuthService from "../services/AuthService";
 
 const termService: TermService = TermService.getInstance();
 const cardService: CardService = CardService.getInstance();
+const authService: AuthService = AuthService.getInstance();
 
 export const addTermAction = async ({ request }: ActionFunctionArgs): Promise<TermInterface> => {
     const formData: FormData = await request.formData();
@@ -85,3 +87,10 @@ export const deleteCardAction = async ({ request }: ActionFunctionArgs): Promise
     const cardId: number = parseInt(formData.get("deleteCardId") as string);
     return cardService.delete(cardId);
 };
+
+export const loginAction = async ({ request }: ActionFunctionArgs): Promise<any> => {
+    const formData: FormData = await request.formData();
+    const username: string = formData.get("username") as string;
+    const password: string = formData.get("password") as string;
+    return authService.login(username, password);
+}

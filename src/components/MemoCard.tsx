@@ -6,7 +6,6 @@ import { useDrag } from "react-dnd";
 import { useFetcher, type FetcherWithComponents } from "react-router-dom";
 import { type CardInterface } from "../model/Card";
 import { type ColumnInterface } from "../model/Column";
-import CardService from "../services/CardService";
 import ModifyCardModal from "./ModifyCardModal";
 
 const MemoCard = (props: CardInterface) => {
@@ -51,7 +50,6 @@ const MemoCard = (props: CardInterface) => {
             method: "POST",
             action: "/card/move"
         });
-        await CardService.getInstance().modify({ ...card, column: columnId });
     }
 
     return (

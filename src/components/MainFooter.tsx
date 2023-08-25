@@ -7,7 +7,6 @@ const MainFooter = () => {
                 </span>
             </div>
         </footer>
-
     );
 }
 
